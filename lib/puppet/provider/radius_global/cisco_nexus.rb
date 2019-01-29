@@ -75,7 +75,7 @@ module Puppet::ResourceApi
       end
 
       # Handle key and keyformat setting
-      @radius_global.key_set(munge(should[:key]), should[:key_format]) if munge(should[:key])
+      @radius_global.key_set(munge(should[:key]), should[:key_format])
     end
 
     def munge(value)
