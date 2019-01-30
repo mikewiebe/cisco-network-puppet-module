@@ -21,7 +21,6 @@ module Puppet::ResourceApi
         if resource[:key]
           resource[:key] = resource[:key].gsub(/\A"|"\Z/, '')
           resource[:key] = Cisco::Utils.add_quotes(resource[:key])
-          puts "resource should value: #{resource[:key]}"
         end
         resource.each do |k, v|
           unless k == :key_format
@@ -42,8 +41,6 @@ module Puppet::ResourceApi
       changes.each do |name, change|
         is = change[:is]
         should = change[:should]
-        puts "set method should value: #{should}"
-        puts "set method is value: #{is}"
         if should != is
           update(context, name, should)
         end
@@ -64,7 +61,6 @@ module Puppet::ResourceApi
         source_interface: @radius_global.source_interface.nil? || @radius_global.source_interface.empty? ? ['unset'] : [@radius_global.source_interface],
       }
 
-      puts "resource is value: #{current_state[:key]}"
       [current_state]
     end
 
