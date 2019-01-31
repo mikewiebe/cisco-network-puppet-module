@@ -20,7 +20,6 @@ module Puppet::ResourceApi
       resources.each do |resource|
         if resource[:key]
           resource[:key] = resource[:key].gsub(/\A"|"\Z/, '')
-          resource[:key] = Cisco::Utils.add_quotes(resource[:key])
         end
         resource.each do |k, v|
           unless k == :key_format
