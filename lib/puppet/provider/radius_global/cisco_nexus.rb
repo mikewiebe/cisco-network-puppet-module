@@ -18,9 +18,7 @@ module Puppet::ResourceApi
     def canonicalize(_context, resources)
       require 'cisco_node_utils'
       resources.each do |resource|
-        if resource[:key]
-          resource[:key] = resource[:key].gsub(/\A"|"\Z/, '')
-        end
+        resource[:key] = resource[:key].gsub(/\A"|"\Z/, '') if resource[:key]
         resource.each do |k, v|
           unless k == :key_format
             resource[k] = 'unset' if v.nil? || v == (nil || -1)
@@ -40,6 +38,7 @@ module Puppet::ResourceApi
       changes.each do |name, change|
         is = change[:is]
         should = change[:should]
+
         if should != is
           update(context, name, should)
         end
