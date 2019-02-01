@@ -77,6 +77,7 @@ def cleanup(agent)
   # AgentFull cc output has escape chars; clean up the noise and remove quotes from the key.
   # e.g. "cisco_command_config { 'cc':\n  test_get => \"\\nradius-server key 7 \\\"55555\\\"\\n\",\n}\n"
   #      "cisco_command_config { 'cc':\n  test_get => \"\\nradius-server key 7 55555"
+  logger.info(out)
   out = out.sub(/\\\"\\n.*/m, '').sub(/\\\"/, '') if out[/\\\"/]
 
   key = out.match('radius-server key (\d+)\s+(.*)')
