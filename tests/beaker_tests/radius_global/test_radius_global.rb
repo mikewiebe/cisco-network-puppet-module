@@ -72,7 +72,14 @@ def cleanup(agent)
 
   # To remove a configured key we have to know the key value
   out = test_get(agent, 'include radius-server.key')
-  key = out.match('^radius-server key (\d+)\s+(.*)') if out
+  return unless out
+
+  # AgentFull cc output has escape chars; clean up the noise and remove quotes from the key.
+  # e.g. "cisco_command_config { 'cc':\n  test_get => \"\\nradius-server key 7 \\\"55555\\\"\\n\",\n}\n"
+  #      "cisco_command_config { 'cc':\n  test_get => \"\\nradius-server key 7 55555"
+  out = out.sub(/\\\"\\n.*/m, '').sub(/\\\"/, '') if out[/\\\"/]
+
+  key = out.match('radius-server key (\d+)\s+(.*)')
   command_config(agent, "no radius-server key #{key[1]} #{key[2]}", "removing key #{key[2]}") if key
 end
 
